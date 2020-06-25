@@ -4,9 +4,40 @@ cli to help backing up files from your battlestation
 
 ## Install
 
-Don't do it for now
+- git
+
+```
+git clone https://github.com/velvetkeyboard/py-fsbackup/issues && \
+    cd py-fsbackup && \
+    pip install --user .
+```
 
 ## Usage
+
+Using the bellow YAML code as our `~/.fsbackup.yaml`:
+
+```
+backends:
+  local:
+    path: ~/my-backups
+schemas:
+  my_pc:
+    - ~/.bashrc
+    - ~/.vimrc
+```
+
+- create and upload a backup using default local backend:
+
+`fsbackup upload -s fedora -b local`
+
+resulting in: `~/my-backups/fsbackup-my_pc-2020-06-24T20:57:57.975172.zip`
+
+- create and upload a backup using default local backend with gpg encryption:
+
+`fsbackup upload -s fedora -b local -e`
+
+resulting in: `~/my-backups/fsbackup-my_pc-2020-06-24T20:57:57.975172.zip.gpg`
+
 
 ### Backends
 
@@ -15,6 +46,7 @@ Don't do it for now
 
 - Not Implemented:
   - aws: AWS S3
+  - gdrive: Google Drive
 
 ## License
 
