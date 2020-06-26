@@ -5,6 +5,9 @@ from fsbackup.lib import FsBackup
 from fsbackup.backends import LocalBackend
 
 
+FSBACKUP_YAML = '~/.fsbackup.yaml'
+
+
 class BaseAction(argparse.Action):
 
     def __init__(self, **kwargs):
@@ -16,11 +19,14 @@ class BaseAction(argparse.Action):
     def cmd(self, namespace):
         raise NotImplementedError('.cmd() not defined')
 
+    def get_cfg_path(self, namespace):
+        return os.path.expanduser(
+            namespace.config or FSBACKUP_YAML)
+
 
 class Upload(BaseAction):
     def cmd(self, namespace):
-        cfg = namespace.config or '~/.fsbackup.yaml'
-        cfg = os.path.expanduser(cfg)
+        cfg = self.get_cfg_path(namespace)
         backend = {
             'local': LocalBackend(cfg)
             }[namespace.backend]
@@ -37,8 +43,7 @@ class Upload(BaseAction):
 
 class Listing(BaseAction):
     def cmd(self, namespace):
-        cfg = namespace.config or '~/.fsbackup.yaml'
-        cfg = os.path.expanduser(cfg)
+        cfg = self.get_cfg_path(namespace)
         backend = {
             'local': LocalBackend(cfg)
             }[namespace.backend]
@@ -48,8 +53,7 @@ class Listing(BaseAction):
 
 class Download(BaseAction):
     def cmd(self, namespace):
-        cfg = namespace.config or '~/.fsbackup.yaml'
-        cfg = os.path.expanduser(cfg)
+        cfg = self.get_cfg_path(namespace)
         backend = {
             'local': LocalBackend(cfg)
             }[namespace.backend]
@@ -64,13 +68,13 @@ class Download(BaseAction):
 
 
 def main():
-    # -------------------------------------------------------------------[Args]
+    # --------------------------------------------------------------------[Args]
     parser = argparse.ArgumentParser(
             prog='fsbackup',
             description='backup your files'
             )
     sparser = parser.add_subparsers(help='actions help')
-    # -----------------------------------------------------------------[upload]
+    # ------------------------------------------------------------------[upload]
     upload = sparser.add_parser('upload', help='upload files to a backend')
     upload.add_argument(
         '-c', '--config', type=str, help='config.yml file path')
@@ -82,7 +86,7 @@ def main():
         '-e', '--encryption', action='store_true', help='encryption engine')
     upload.add_argument(
         'run', nargs=0, action=Upload, help=argparse.SUPPRESS)
-    # ---------------------------------------------------------------[Download]
+    # -----------------------------------------------------------------[listing]
     listing = sparser.add_parser(
         'list', help='download backup files from a backend')
     listing.add_argument(
@@ -91,6 +95,7 @@ def main():
         '-b', '--backend', type=str, help='service you want to use to upload')
     listing.add_argument(
         'run', nargs=0, action=Listing, help=argparse.SUPPRESS)
+    # ----------------------------------------------------------------[Download]
     download = sparser.add_parser(
         'download', help='download backup files from a backend')
     download.add_argument(
