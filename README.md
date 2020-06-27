@@ -22,6 +22,8 @@ git clone https://github.com/velvetkeyboard/py-fsbackup && \
 
 ## Usage
 
+### Local Backend
+
 Using the bellow YAML code as our `~/.fsbackup.yaml`:
 
 ```
@@ -46,6 +48,45 @@ resulting in: `~/my-backups/fsbackup-my_pc-2020-06-24T20:57:57.975172.zip`
 
 resulting in: `~/my-backups/fsbackup-my_pc-2020-06-24T20:57:57.975172.zip.gpg`
 
+### Google Drive Backend
+
+Using the bellow YAML code as our `~/.fsbackup.yaml`:
+
+```
+backends:
+  local:
+    path: ~/my-backups
+  google_drive:
+    credential: ~/google-drive-credentials.json
+    folder: MyBackups
+schemas:
+  my_pc:
+    - ~/.bashrc
+    - ~/.vimrc
+```
+
+_Important_:
+ - Make sure you enable (installed) the proper dependencies for the backend:
+   `pip install -e .[google_drive] fsbackup`
+ - the `google-drive-credentials.json` file can be generated on this officieal
+   tutorial page for Google Drive API:
+   https://developers.google.com/drive/api/v3/quickstart/python
+
+Flows:
+
+- create and upload a backup using the google drive backend:
+
+`fsbackup upload -s my_pc -b google_drive`
+
+resulting in a file `fsbackup-my_pc-2020-06-24T20:57:57.975172.zip` inside
+the `MyBackups` folder
+
+- create and upload a backup using google drive backend with gpg encryption:
+
+`fsbackup upload -s my_pc -b local -e`
+
+resulting in a file `fsbackup-my_pc-2020-06-24T20:57:57.975172.zip.gpg` inside
+the `MyBackups` folder
 
 ### Backends
 
@@ -53,7 +94,8 @@ resulting in: `~/my-backups/fsbackup-my_pc-2020-06-24T20:57:57.975172.zip.gpg`
   - local: Local Filesystem
 - Partial:
   - google_drive: Google Drive
-    - upload
+    - flows:
+      - upload
 - Not Implemented:
   - aws: AWS S3
 
