@@ -2,10 +2,22 @@ import os
 import argparse
 import getpass
 from fsbackup.lib import FsBackup
-from fsbackup.backends import LocalBackend
 
 
 FSBACKUP_YAML = '~/.fsbackup.yaml'
+
+
+def get_backend_by_name(name):
+    if name == 'google_drive':
+        from fsbackup.backends import GoogleDriveBackend
+        ret = GoogleDriveBackend
+    elif name == 'local':
+        from fsbackup.backends import LocalBackend
+        ret = LocalBackend
+    else:
+        from fsbackup.backends import LocalBackend
+        ret = LocalBackend
+    return ret 
 
 
 class BaseAction(argparse.Action):
@@ -27,9 +39,7 @@ class BaseAction(argparse.Action):
 class Upload(BaseAction):
     def cmd(self, namespace):
         cfg = self.get_cfg_path(namespace)
-        backend = {
-            'local': LocalBackend(cfg)
-            }[namespace.backend]
+        backend = get_backend_by_name(namespace.backend)(cfg)
         password = None
         if namespace.encryption:
             password = getpass.getpass()
@@ -44,9 +54,7 @@ class Upload(BaseAction):
 class Listing(BaseAction):
     def cmd(self, namespace):
         cfg = self.get_cfg_path(namespace)
-        backend = {
-            'local': LocalBackend(cfg)
-            }[namespace.backend]
+        backend = get_backend_by_name(namespace.backend)(cfg)
         for i, path in enumerate(backend.list()):
             print(f'[{i}] {path}')
 
@@ -54,10 +62,7 @@ class Listing(BaseAction):
 class Download(BaseAction):
     def cmd(self, namespace):
         cfg = self.get_cfg_path(namespace)
-        backend = {
-            'local': LocalBackend(cfg)
-            }[namespace.backend]
-
+        backend = get_backend_by_name(namespace.backend)(cfg)
         if not namespace.number:
             for i, path in enumerate(backend.list()):
                 print(f'[{i}] {path}')

@@ -25,6 +25,16 @@ setup(
         'tqdm==4.46.1',
         'python-gnupg==0.4.6',
     ],
+    extras_require={
+        'google_drive': [
+            'google-api-python-client',
+            'google-auth-httplib2',
+            'google-auth-oauthlib',
+        ],
+        'aws_s3': [
+            'boto3',
+        ]
+    },
     packages=find_packages(),
     include_package_data=True,
     entry_points={

@@ -12,6 +12,14 @@ git clone https://github.com/velvetkeyboard/py-fsbackup && \
     pip install --user .
 ```
 
+- git with Google Drive backend
+
+```
+git clone https://github.com/velvetkeyboard/py-fsbackup && \
+    cd py-fsbackup && \
+    pip install -e .[google_drive] .
+```
+
 ## Usage
 
 Using the bellow YAML code as our `~/.fsbackup.yaml`:
@@ -43,10 +51,11 @@ resulting in: `~/my-backups/fsbackup-my_pc-2020-06-24T20:57:57.975172.zip.gpg`
 
 - Implemented:
   - local: Local Filesystem
-
+- Partial:
+  - google_drive: Google Drive
+    - upload
 - Not Implemented:
   - aws: AWS S3
-  - gdrive: Google Drive
 
 ## License
 
