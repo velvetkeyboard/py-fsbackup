@@ -1,6 +1,7 @@
 import os
+import json
 # 3rd Party
-import yaml
+#import yaml
 
 
 class Backend(object):
@@ -14,7 +15,8 @@ class Backend(object):
 
     def get_config(self):
         with open(os.path.expanduser(self.config), 'r') as f:
-            return yaml.safe_load(f)['backend'][self.get_name()]
+            #return yaml.safe_load(f)['backend'][self.get_name()]
+            return json.load(f)['backends'][self.get_name()]
 
     def upload(self, file_path, name=None):
         raise NotImplementedError

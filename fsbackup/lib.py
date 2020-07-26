@@ -1,11 +1,10 @@
 import os
+import json
 import datetime
 import zipfile
 import logging
 # 3rd Party
-from tqdm import tqdm
-import yaml
-import gnupg
+#from tqdm import tqdm
 
 
 LOGLEVEL = os.environ.get("FSBACKUP_LOGLEVEL", "INFO")
@@ -19,7 +18,9 @@ class FsBackup(object):
 
     def get_config(self):
         with open(os.path.expanduser(self.config), 'r') as f:
-            return yaml.safe_load(f)
+            #import yaml
+            #return yaml.safe_load(f)
+            return json.load(f)
 
     def get_curr_date(self):
         return datetime.datetime.now().isoformat()
@@ -27,8 +28,11 @@ class FsBackup(object):
     def backup(self, schema, backend, password=None, encryption_engine=None):
         zfile, zfile_path = self.create_compression_file(schema)
         file_paths = self.get_file_paths(schema)
-        for file_path in tqdm(file_paths, ascii=True, desc='Zipping'):
+        print("Zipping [", end="")
+        for file_path in file_paths:
+            print("=", end="")
             zfile.write(file_path)
+        print("] Done.")
         zfile.close()
 
         if password and encryption_engine:
@@ -45,22 +49,7 @@ class FsBackup(object):
         os.remove(upload_file_path)
 
     def encrypt_archive(self, file_path, passphrase, encryption_engine):
-        gpg = gnupg.GPG()
-        with open(file_path, 'rb') as f:
-            output_file_path = f'{file_path}.gpg'
-            status = gpg.encrypt_file(
-                f,
-                symmetric=True,
-                passphrase=passphrase,
-                recipients=[],
-                output=output_file_path,
-                )
-            if not status.ok:
-                print(f'GPG Ok: {status.ok}')
-                print(f'GPG Status: {status.status}')
-                print(f'GPG Err: {status.stderr}')
-                raise Exception(status.stderr)
-            return output_file_path
+        return file_path
 
     def create_compression_file(self, schema_name, path=None):
         path = path or '.'

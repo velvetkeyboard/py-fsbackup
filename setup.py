@@ -14,16 +14,13 @@ with open('README.md', 'r') as f:
 setup(
     name=__app_name__,
     version=__version__,
-    url='https://github.com/velvetkeyboad/py-fsbackup',
+    url='https://gitlab.com/velvetkeyboard/py-fsbackup',
     author=__author__,
     author_email=__author_email__,
     license=__license__,
     description=__description__,
     long_description=long_description,
     install_requires=[
-        'PyYAML==5.1.2',
-        'tqdm==4.46.1',
-        'python-gnupg==0.4.6',
     ],
     extras_require={
         'google_drive': [
@@ -33,6 +30,12 @@ setup(
         ],
         'aws_s3': [
             'boto3',
+        ],
+        'yaml': [
+            'PyYAML==5.1.2',
+        ],
+        'crypto': [
+            'python-gnupg==0.4.6',
         ]
     },
     packages=find_packages(),
