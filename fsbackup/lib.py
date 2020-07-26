@@ -18,9 +18,11 @@ class FsBackup(object):
 
     def get_config(self):
         with open(os.path.expanduser(self.config), 'r') as f:
-            #import yaml
-            #return yaml.safe_load(f)
-            return json.load(f)
+            try:
+                import yaml
+                return yaml.safe_load(f)
+            except:
+                return json.load(f)
 
     def get_curr_date(self):
         return datetime.datetime.now().isoformat()
