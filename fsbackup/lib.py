@@ -25,7 +25,7 @@ class FsBackup(object):
                 return json.load(f)
 
     def get_curr_date(self):
-        return datetime.datetime.now().isoformat()
+        return datetime.datetime.now().strftime("%Y-%m-%d-%H%M%S")
 
     def backup(self, schema, backend, password=None, encryption_engine=None):
         zfile, zfile_path = self.create_compression_file(schema)
