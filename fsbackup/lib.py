@@ -1,10 +1,7 @@
 import os
-import json
 import datetime
 import zipfile
 import logging
-# 3rd Party
-#from tqdm import tqdm
 
 
 LOGLEVEL = os.environ.get("FSBACKUP_LOGLEVEL", "INFO")
@@ -17,12 +14,15 @@ class FsBackup(object):
         self.config = config
 
     def get_config(self):
-        with open(os.path.expanduser(self.config), 'r') as f:
-            try:
-                import yaml
-                return yaml.safe_load(f)
-            except:
-                return json.load(f)
+        if os.path.exists(self.config):
+            with open(os.path.expanduser(self.config), 'r') as f:
+                _, file_extension = os.path.splitext(self.config)
+                if file_extension in ['.yaml', '.yml']:
+                    import yaml
+                    return yaml.safe_load(f)
+                elif file_extension == '.json':
+                    import json
+                    return json.load(f)
 
     def get_curr_date(self):
         return datetime.datetime.now().strftime("%Y-%m-%d-%H%M%S")
@@ -30,11 +30,9 @@ class FsBackup(object):
     def backup(self, schema, backend, password=None, encryption_engine=None):
         zfile, zfile_path = self.create_compression_file(schema)
         file_paths = self.get_file_paths(schema)
-        print("Zipping [", end="")
+        print("Zipping ...")
         for file_path in file_paths:
-            print("=", end="")
             zfile.write(file_path)
-        print("] Done.")
         zfile.close()
 
         if password and encryption_engine:

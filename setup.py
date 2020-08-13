@@ -24,12 +24,10 @@ setup(
     ],
     extras_require={
         'google_drive': [
-            'google-api-python-client',
-            'google-auth-httplib2',
-            'google-auth-oauthlib',
+            'fsbackup-googledrive-backend',
         ],
         'aws_s3': [
-            'boto3',
+            'fsbackup-aws-backend',
         ],
         'yaml': [
             'PyYAML==5.1.2',
