@@ -2,6 +2,7 @@ import os
 import argparse
 import getpass
 from fsbackup.lib import FsBackup
+from fsbackup import __version__
 
 
 FSBACKUP_YAML = '~/.fsbackup.yaml'
@@ -65,6 +66,9 @@ def main():
             prog='fsbackup',
             description='backup your files'
             )
+    parser.add_argument(
+        '-v', '--version', action='version', version=f'{__version__}')
+
     sparser = parser.add_subparsers(help='actions help')
 
     # ------------------------------------------------------------------[upload]
