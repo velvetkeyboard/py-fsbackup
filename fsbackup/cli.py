@@ -71,7 +71,7 @@ def main():
     upload_parser = sparser.add_parser(
             'upload', help='upload_parser files to a backend')
     upload_parser.add_argument(
-        '-c', '--config', type=str, default=FSBACKUP_JSON, help='config.yml file path')
+        '-c', '--config', type=str, default=FSBACKUP_YAML, help='config.yml file path')
     upload_parser.add_argument(
         '-s', '--schema', type=str, help="config file's schema to use")
     upload_parser.add_argument(
@@ -84,7 +84,7 @@ def main():
     list_parser = sparser.add_parser(
         'list', help='download backup files from a backend')
     list_parser.add_argument(
-        '-c', '--config', type=str, default=FSBACKUP_JSON, help='config.yml file path')
+        '-c', '--config', type=str, default=FSBACKUP_YAML, help='config.yml file path')
     list_parser.add_argument(
         '-b', '--backend', type=str, help='service you want to use to upload')
     list_parser.set_defaults(func=listing)
@@ -93,7 +93,7 @@ def main():
     download_parser = sparser.add_parser(
         'download', help='download_parser backup files from a backend')
     download_parser.add_argument(
-        '-c', '--config', type=str, default=FSBACKUP_JSON, help='config.yml file path')
+        '-c', '--config', type=str, default=FSBACKUP_YAML, help='config.yml file path')
     download_parser.add_argument(
         '-b', '--backend', type=str, help='service you want to use to upload')
     download_parser.add_argument(
