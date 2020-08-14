@@ -1,0 +1,6 @@
+[flake8]
+exclude = build/*,dist/*,extra/*,__pycache__/*,env/*,.git/*
+max-line-length = 80
+per-file-ignores =
+    ./fsbackup/backends/__init__.py:F401
+    ./fsbackup/cli.py:E501
