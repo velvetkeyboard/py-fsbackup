@@ -20,6 +20,7 @@ setup(
     license=__license__,
     description=__description__,
     long_description=long_description,
+    long_description_content_type='text/markdown',
     install_requires=[
         'PyYAML==5.1.2',
     ],
