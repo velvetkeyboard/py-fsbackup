@@ -21,6 +21,7 @@ setup(
     description=__description__,
     long_description=long_description,
     install_requires=[
+        'PyYAML==5.1.2',
     ],
     extras_require={
         'google_drive': [
@@ -28,9 +29,6 @@ setup(
         ],
         'aws_s3': [
             'fsbackup-aws-backend',
-        ],
-        'yaml': [
-            'PyYAML==5.1.2',
         ],
         'crypto': [
             'python-gnupg==0.4.6',
