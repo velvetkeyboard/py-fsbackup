@@ -21,12 +21,13 @@ pypi=test
 
 ifeq ($(pypi),production)
 	pypi_url=https://upload.pypi.org/legacy/
+endif
 ifeq ($(pypi), test)
 	pypi_url=https://test.pypi.org/legacy/
 endif
 
 lint:
-	$(linter) $(src_folder)
+	@$(linter) $(src_folder)
 
 build_wheel: lint
 	$(python) setup.py bdist_wheel
