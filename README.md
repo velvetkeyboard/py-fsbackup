@@ -2,9 +2,17 @@
 
 cli to help backing up files from your battlestation
 
-## Install
+## Installing with
 
-- git
+### PYPI
+
+`pip install --user fsbackup`
+
+- with Google Drive backend
+
+`pip install --user -e .[google_drive] fsbackup`
+
+### Git
 
 ```
 git clone https://github.com/velvetkeyboard/py-fsbackup && \
@@ -12,12 +20,12 @@ git clone https://github.com/velvetkeyboard/py-fsbackup && \
     pip install --user .
 ```
 
-- git with Google Drive backend
+- with Google Drive backend
 
 ```
 git clone https://github.com/velvetkeyboard/py-fsbackup && \
     cd py-fsbackup && \
-    pip install -e .[google_drive] .
+    pip install --user -e .[google_drive] .
 ```
 
 ## Usage
@@ -122,4 +130,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
